@@ -1,0 +1,25 @@
+
+//recurion + memoization
+class Solution {
+public:
+int t [365];
+    int solve(int i,vector<int>& days, vector<int>& costs){
+        if(i>=days.size()) return 0 ;
+        if(t[i]!=-1) return t[i];
+        int costs1 = costs[0] + solve(i+1,days,costs);
+        int maxDay7 = days[i] + 7;
+        int j = i;
+        while(j<days.size() && days[j]<maxDay7)j++;
+        int costs2 = costs[1] + solve(j,days,costs);
+        int maxDay30 = days[i] + 30;
+        j=i;
+        while(j<days.size() && days[j]<maxDay30) j++;
+        int costs3 = costs[2] + solve(j,days,costs);
+        return t[i]=min(costs1,min(costs2,costs3));
+    }
+
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        memset(t,-1,sizeof(t));
+        return solve(0,days,costs);
+    }
+};
